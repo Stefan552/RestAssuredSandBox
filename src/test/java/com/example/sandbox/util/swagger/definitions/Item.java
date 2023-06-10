@@ -15,4 +15,10 @@ public class Item {
 
     @JsonProperty
     private String name;
+    @JsonProperty
+    private String type;
+    @JsonProperty
+    private String message;
+    @JsonProperty
+    private String code;
 }

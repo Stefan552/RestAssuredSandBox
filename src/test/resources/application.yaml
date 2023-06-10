@@ -17,7 +17,7 @@
 #    sourceFolderTimestamp: true
 #    fileTimestamp: false
 #    path: .//target/Report/SandboxProjectReport
-#    fileName: sandbox
+#    fileName: com.example.sandbox
 #    strategy: SUITE
 #spring:
 #  datasource:

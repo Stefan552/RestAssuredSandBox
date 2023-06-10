@@ -9,6 +9,37 @@ import static io.restassured.RestAssured.given;
 public class Common extends Endpoints {
 
     //----------------------------------GET----------------------------------
+    public Response getUrlt(String endpoint, String petId) {
+
+
+        return given()
+                .relaxedHTTPSValidation()
+                .and()
+                .log().everything()
+                .pathParam("petId", petId)
+                .when()
+                .get(baseUrl + endpoint + "/{petId}")
+                .then()
+                .log()
+                .all()
+                .extract().response();
+
+    }
+
+
+    public Response getUrl ( String petById , String id ) {
+        return given()
+                .relaxedHTTPSValidation()
+                .and()
+                .log().everything()
+                .when()
+                .body ( "id"==id )
+                .get(baseUrl+petById)
+                .then()
+                .log()
+                .all()
+                .extract().response();
+    }
     public Response getUrl(String endpoint){
 
 
@@ -80,5 +111,23 @@ public class Common extends Endpoints {
     //----------------------------------PUT----------------------------------
 
     //----------------------------------DELETE----------------------------------
+
+    public Response deleteUrl(String endpoint,String body){
+
+
+        return given()
+                .relaxedHTTPSValidation()
+                .contentType("application/json; charset=UTF-8")
+                .body(body)
+                .and()
+                .log().everything()
+                .when()
+                .delete (baseUrl+endpoint)
+                .then()
+                .log()
+                .all()
+                .extract().response();
+
+    }
 }
 

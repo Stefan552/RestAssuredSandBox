@@ -14,7 +14,7 @@ import java.util.List;
 public class PetBody {
 
     @JsonProperty
-    private int id;
+    private Integer id;
 
     @JsonProperty
     private Item category;
@@ -32,4 +32,10 @@ public class PetBody {
 
     @JsonProperty
     private String status;
+
+
+
+
 }
+
+

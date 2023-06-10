@@ -17,7 +17,7 @@
        *********************************************************************
        -->
         <packages>
-            <package name="com.example.sandbox.*" />
+            <package name="com.example.com.example.sandbox.*" />
         </packages>
     </test> <!-- Test -->
 </suite> <!-- Suite  -->
