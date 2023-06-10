@@ -27,14 +27,15 @@ public class Common extends Endpoints {
     }
 
 
-    public Response getUrl ( String petById , String id ) {
+    public Response getUrlPetID (  String id ) {
+
         return given()
                 .relaxedHTTPSValidation()
                 .and()
                 .log().everything()
                 .when()
                 .body ( "id"==id )
-                .get(baseUrl+petById)
+                .get(baseUrl+petById+id)
                 .then()
                 .log()
                 .all()

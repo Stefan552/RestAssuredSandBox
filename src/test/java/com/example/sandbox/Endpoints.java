@@ -8,8 +8,8 @@ public class Endpoints {
     public static final String findByStatus = "/pet/findByStatus";
     public static final String uploadImage = "/pet/{petId}/uploadImage";
     public static final String newPet = "/pet";
-    public static final String petById = "/pet/{petId}";
-    public  static  final String deletePet ="/pet/{pedId}";
+    public static final String petById = "/pet/";
+    public  static  final String deletePet ="/pet/";
 
 
     //-------------------------store-------------------------
