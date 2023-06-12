@@ -12,7 +12,6 @@ public class Item {
 
     @JsonProperty
     private int id;
-
     @JsonProperty
     private String name;
     @JsonProperty

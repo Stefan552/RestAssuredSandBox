@@ -1,4 +1,4 @@
-package com.example.sandbox.PetController;
+package com.example.sandbox.FeladatMasodikResz;
 
 import com.example.sandbox.Common;
 import com.example.sandbox.util.Assertions;
@@ -16,12 +16,12 @@ import static com.example.sandbox.util.constans.Tags.SMOKE;
 import static com.example.sandbox.util.constans.TestData.HYDRAIMAGE;
 
 
-public class petObjectCreatingUpdatingDeletingWithTheChecks extends Common {
+public class petLifeActions extends Common {
     com.example.sandbox.util.Assertions Assertions=new Assertions ();
 
-    @Test(enabled = true, groups = {SMOKE}, description = "petByIdTest Test createPetForUsageTest ",priority = 1)
+    @Test(enabled = true, groups = {SMOKE}, description = " Test createPetForUsageTest ",priority = 1)
     public void createPetForUsageTest() {
-        Assertions.lineSeparatorStartEndLines ( 1,"petByIdTest Test createPetForUsageTest" );
+        Assertions.lineSeparatorStartEndLines ( 1," Test createPetForUsageTest" );
 
         PostCreatePet body = PostCreatePet.builder()
                 .PetBody( PetBody.builder()
@@ -40,16 +40,13 @@ public class petObjectCreatingUpdatingDeletingWithTheChecks extends Common {
                         .build()
                 ).build();
 
-
-
-
         Response response = postUrl(newPet, createJsonBody(body));
         Assert.assertEquals(response.getStatusCode(), 200, "Invalid response code");
-        Assertions.lineSeparatorStartEndLines ( 0,"petByIdTest Test createPetForUsageTest" );}
+        Assertions.lineSeparatorStartEndLines ( 0," Test createPetForUsageTest" );}
 
-    @Test (enabled = true,groups = {SMOKE},description ="petByIdTest  VALID Response Case",priority = 2)
+    @Test (enabled = true,groups = {SMOKE},description ="TestValidResponseFindPet  VALID Response Case",priority = 2)
     public void TestValidResponseFindPet(){
-        Assertions.lineSeparatorStartEndLines ( 1,"TestValidResponse petByIdTest " );
+        Assertions.lineSeparatorStartEndLines ( 1,"TestValidResponse FindPet " );
         Map<String, String> queryParams = new TreeMap<>();
         queryParams.put("status", "available");
         Response response=getUrlPetID ( "1542" );
@@ -64,12 +61,9 @@ public class petObjectCreatingUpdatingDeletingWithTheChecks extends Common {
         Assert.assertNotNull(server, "Server header is missing");
         Assert.assertEquals(server, "Jetty(9.2.9.v20150224)", "Invalid content server");
 
-
         String responseBody = response.getBody().asString();
         Assert.assertFalse(responseBody.isEmpty(), "Response body is empty");
         Assert.assertTrue ( responseBody.contains ( "available"));
-
-
 
         String id = jsonPath.getString("id");
         Assert.assertNotNull(id, "Pet ID is null");
@@ -100,13 +94,13 @@ public class petObjectCreatingUpdatingDeletingWithTheChecks extends Common {
 
 
         Assert.assertFalse(responseBody.isEmpty(), "Response body is empty");
-        Assertions.lineSeparatorStartEndLines ( 0,"TestValidResponse petByIdTest " );
+        Assertions.lineSeparatorStartEndLines ( 0,"TestValidResponse FindPet " );
 
     }
 
-    @Test(enabled = true,groups = {SMOKE},description ="petDetailTest  INVALID Response Case",priority = 3)
+    @Test(enabled = true,groups = {SMOKE},description ="TestInvalidResponseFindPet  INVALID Response Case",priority = 3)
     public void TestInvalidResponseFindPet(){
-        Assertions.lineSeparatorStartEndLines ( 1,"Test InValidResponse petByIdTest " );
+        Assertions.lineSeparatorStartEndLines ( 1,"Test InValidResponse FindPet " );
         Map<String, String> queryParams = new TreeMap<>();
         queryParams.put("status", "available");
         Response response=getUrlPetID ( "null" );
@@ -142,12 +136,13 @@ public class petObjectCreatingUpdatingDeletingWithTheChecks extends Common {
         Assert.assertEquals ( length,expectedLength,"Response length mismatch!" );
 
         Assertions.assertResponseTimeLessThan(response, 20000000L);
-        Assertions.lineSeparatorStartEndLines ( 0,"Test InValidResponse petByIdTest " );
+        Assertions.lineSeparatorStartEndLines ( 0,"Test InValidResponse FindPet " );
 
 }
-    @Test (enabled = true,groups = {SMOKE},description ="petByIdTest  VALID Response Case",priority = 4)
-    public void TestValidResponseUpdatePet() {
-        Assertions.lineSeparatorStartEndLines ( 1 , "Test TestValidResponseUpdatePet updatetestvalid " );
+
+    @Test (enabled = true,groups = {SMOKE},description ="TestValiUpdatePet  VALID Response Case",priority = 4)
+    public void TestValiUpdatePet() {
+        Assertions.lineSeparatorStartEndLines ( 1 , "Test TestValiUpdatePet  " );
         PostCreatePet body = PostCreatePet.builder()
                 .PetBody(PetBody.builder()
                         .id(1542)
@@ -208,42 +203,29 @@ public class petObjectCreatingUpdatingDeletingWithTheChecks extends Common {
         Assert.assertEquals(tagId, 1542, "Invalid tag ID");
 
         Assert.assertTrue(response.body().asString().contains(HYDRAIMAGE), "Photo URL not found in response");
-
         Assert.assertTrue(response.body().asString().contains("sold"), "Pet status 'available' not found in response");
-
         Assert.assertFalse(response.body().asString().contains("error"), "Response body contains error");
-
         long responseTime = response.getTime();
         Assert.assertTrue(responseTime < 5000L, "Response time exceeds the expected limit of 5 seconds");
-
         Assert.assertFalse(response.body().asString().isEmpty(), "Response body is empty");
-
         Assertions.assertResponseHasHeader(response, "Server");
         String server = response.getHeader("Server");
         Assert.assertNotNull(server, "Server header is missing");
         Assert.assertEquals(server, "Jetty(9.2.9.v20150224)", "Invalid content server");
-
-
-
         Assertions.assertResponseStatus(response, "sold");
-
         Assertions.assertResponseBodyContains(response, "Hoardig2");
-
         Assertions.assertResponseBodyHasKey(response, "id");
+        Assertions.lineSeparatorStartEndLines ( 0 , "Test TestValiUpdatePet  " );
     }
 
-    @Test (enabled = true,groups = {SMOKE},description ="petByIdTest  VALID Response Case",priority = 5)
-    public void TestInValidResponseUpdatePet(){
-        Assertions.lineSeparatorStartEndLines ( 1,"Test TestInValidResponseUpdatePet updateTestInvalid " );
+    @Test (enabled = true,groups = {SMOKE},description ="TestInValidUpdatePet  INVALID Response Case",priority = 5)
+    public void TestInValidUpdatePet(){
+            Assertions.lineSeparatorStartEndLines ( 1,"Test TestInValidResponseUpdatePet updateTestInvalid " );
 
-         PostCreatePet body=   PostCreatePet.builder()
+             PostCreatePet body=   PostCreatePet.builder().build();
 
-                    .build();
-
-        Response response=updatePet (  createJsonBody ( body )  );
-        response.getBody ().print ();
-
-
+            Response response=updatePet (  createJsonBody ( body )  );
+            response.getBody ().print ();
             Assert.assertEquals ( response.getStatusCode () , 405 , "Invalid response code" );
 
             Assertions.assertResponseHasHeader ( response , "Content-Type" );
@@ -271,90 +253,56 @@ public class petObjectCreatingUpdatingDeletingWithTheChecks extends Common {
             String server = response.getHeader ( "Server" );
             Assert.assertNotNull ( server , "Server header is missing" );
             Assert.assertEquals ( server , "Jetty(9.2.9.v20150224)" , "Invalid content server" );
-
-
             Assertions.assertResponseTimeLessThan ( response , 20000000L );
+            String headers = response.getHeader("Accept=*/*");
+            Assert.assertEquals (  headers,null,"'Headers' field is not null!");
 
-
-
-
-
-
-            Assertions.assertResponseTimeLessThan (response, 20000l );
-        String headers = response.getHeader("Accept=*/*");
-        Assert.assertEquals (  headers,null,"'Headers' field is not null!");
-
-
-        Assert.assertFalse(responseBody.isEmpty(), "Response body is empty");
-        Assertions.lineSeparatorStartEndLines ( 1,"Test TestInValidResponseUpdatePet petByIdTest " );
+            Assertions.lineSeparatorStartEndLines ( 1,"Test TestInValidResponseUpdatePet updateTestInvalid " );
 
 
     }
 
-    @Test(enabled = true,groups = {SMOKE},description ="petDetailTest  VALID Response Case",priority = 6)
-    public void TestValidResponseCheckForUpdates(){
-        Assertions.lineSeparatorStartEndLines ( 1,"TestValidResponse petDetailTest " );
+    @Test(enabled = true,groups = {SMOKE},description ="CheckForUpDates  VALID Response Case",priority = 6)
+    public void TestCheckForUpdates(){
+        Assertions.lineSeparatorStartEndLines ( 1,"TestValidResponse TestValidResponseCheckForUpdates " );
         Map<String, String> queryParams = new TreeMap<>();
         queryParams.put("id", "1542");
-
 
         Response response = getUrlPetID ("1542");
 
         Assert.assertEquals(response.getStatusCode(), 200, "Invalid response code");
-
         JsonPath jsonPath = response.jsonPath();
-
         String contentType = response.getHeader("Content-Type");
         Assert.assertEquals(contentType, "application/json", "Invalid content type");
         Assert.assertNotNull ( contentType, "The Content-Type  header is missing");
-
         String server = response.getHeader("Server");
         Assert.assertNotNull(server, "Server header is missing");
         Assert.assertEquals(server, "Jetty(9.2.9.v20150224)", "Invalid content server");
-
-
         String responseBody = response.getBody().asString();
         Assert.assertFalse(responseBody.isEmpty(), "Response body is empty");
         Assert.assertTrue ( responseBody.contains ( "sold"));
-
-
-
         String id = jsonPath.getString("id");
         Assert.assertNotNull(id, "Pet ID is null");
-
         String name = jsonPath.getString("name");
         Assert.assertNotNull(name, "Pet name is null");
-
-        String expectedId="[12, 9223372036854604567, 822922, 68, 13]";
-        String expectedName="[null, doggie, doggie, bagworm, null]";
-
-        if ( id.contains ( expectedId ) ){
-            Assert.assertEquals (id, expectedId, "Invalid ID");} else if ( name.contains (expectedName) ) {
-            Assert.assertEquals(name, expectedName, "Invalid pet name");}
-
-        String expectedStatus="[sold, sold, sold, sold]";
-        if ( queryParams.containsValue ( expectedStatus ) ){
-            Assert.assertEquals(jsonPath.getString("status"), "sold", "Invalid status");}
-
-        if ( jsonPath.getString ( "category.name" ).contains ( "[dogs, nulla quis pariatur, irure laborum id proident incididunt, bagworm, cats,cats]" ) ){
-            Assert.assertEquals(jsonPath.getString("category.name"), "[dogs, nulla quis pariatur, irure laborum id proident incididunt, bagworm, cats,cats]", "Invalid category name");}
-
-        if ( jsonPath.getString ( "category.id" ).contains ( "[0, -4630181, -69794609, 68, 0]" ) ){
-            Assert.assertEquals(jsonPath.getString("category.id"), "[0, -4630181, -69794609, 68, 0]", "Invalid category ID");}
+        String expectedId="1542";
+        String expectedName="Hoardig";
+        Assert.assertEquals ( id,expectedId,"Invalid id field" );
+        Assert.assertEquals(name, expectedName, "Invalid pet name");
+        Assert.assertEquals(jsonPath.getString("status"), "sold", "Invalid status");
         Assertions.assertResponseTimeLessThan (response, 20000l );
         String headers = response.getHeader("Accept=*/*");
         Assert.assertEquals (  headers,null,"'Headers' field is not null!");
-
-
         Assert.assertFalse(responseBody.isEmpty(), "Response body is empty");
-        Assertions.lineSeparatorStartEndLines ( 0,"TestValidResponse petDetailTest " );
+
+        Assertions.lineSeparatorStartEndLines ( 0,"TestValidResponse TestValidResponseCheckForUpdates " );
 
     }
 
-    @Test(enabled = true,groups = {SMOKE},description ="petDetailTest  INVALID Response Case",priority = 7)
+    @Test(enabled = true,groups = {SMOKE},description ="CheckForUpDates  INVALID Response Case",priority = 7)
     public void TestInvalidResponseCheckForUpdates(){
 
-        Assertions.lineSeparatorStartEndLines ( 1,"TestInValidResponse petDetailTest " );
+        Assertions.lineSeparatorStartEndLines ( 1,"TestInValidResponse TestInvalidResponseCheckForUpdates " );
         Map<String, String> queryParams = new TreeMap<>();
         queryParams.put("status","sold");
 
@@ -387,14 +335,14 @@ public class petObjectCreatingUpdatingDeletingWithTheChecks extends Common {
         Assert.assertEquals ( length,expectedLength,"Response length mismatch!" );
 
         Assertions.assertResponseTimeLessThan(response, 20000000L);
-        Assertions.lineSeparatorStartEndLines ( 0,"TestInValidResponse petDetailTest " );
+        Assertions.lineSeparatorStartEndLines ( 0,"TestInValidResponse TestInvalidResponseCheckForUpdates " );
 
 
     }
 
-    @Test(enabled = true,groups = {SMOKE},description ="petDetailTest  VALID Response Case",priority = 8)
-    public void TestValidResponseCheckForDelete(){
-        Assertions.lineSeparatorStartEndLines ( 1,"TestValidResponse petDetailTest " );
+    @Test(enabled = true,groups = {SMOKE},description ="DeletingPet  VALID Response Case",priority = 8)
+    public void TestDeletingPet(){
+        Assertions.lineSeparatorStartEndLines ( 1,"TestValidResponse TestDeletingPet " );
 
 
         Response response = deletePet ("1542");
@@ -419,17 +367,47 @@ public class petObjectCreatingUpdatingDeletingWithTheChecks extends Common {
         Assert.assertTrue(response.body().asString().contains("type"), "Response body does not contains 'type'");
         Assert.assertTrue(response.body().asString().contains("message"), "Response body does  not contains 'message'");
 
-        Assertions.lineSeparatorStartEndLines ( 0,"TestValidResponse petDetailTest " );
+        Assertions.lineSeparatorStartEndLines ( 0,"TestValidResponse TestDeletingPet " );
 
     }
 
-    @Test(enabled = true,groups = {SMOKE},description ="petDetailTest  VALID Response Case",priority = 9)
-    public void TestInValidResponseCheckForDelete(){
-        Assertions.lineSeparatorStartEndLines ( 1,"TestValidResponse petDetailTest " );
+    @Test(enabled = true,groups = {SMOKE},description ="CheckIfPetIsDeleted  VALID Response Case",priority = 9)
+    public void TestCheckIfPetIsDeleted(){
+        Assertions.lineSeparatorStartEndLines ( 1,"TestValidResponse Check IF The Pet Is Deleted " );
 
         Response response = getUrlPetID ("1542");
-        response.getBody ().print ();
         Assert.assertEquals(response.getStatusCode(), 404, "Invalid response code");
+        JsonPath jsonPath = response.jsonPath();
+
+        String contentType = response.getHeader("Content-Type");
+        Assert.assertEquals(contentType, "application/json", "Invalid content type");
+        Assert.assertNotNull ( contentType, "The Content-Type  header is missing");
+
+        String server = response.getHeader("Server");
+        Assert.assertNotNull(server, "Server header is missing");
+        Assert.assertEquals(server, "Jetty(9.2.9.v20150224)", "Invalid content server");
+
+
+        String responseBody = response.getBody().asString();
+        Assert.assertTrue ( responseBody.contains ( "error"));
+        Assert.assertTrue ( responseBody.contains ( "Pet not found"));
+        Assert.assertTrue ( responseBody.contains ( "code"));
+
+
+        String message = jsonPath.getString("message");
+        Assert.assertNotNull(message, "Response message is null");
+
+        String type = jsonPath.getString("type");
+        Assert.assertNotNull(type, "Response type is null");
+
+        Assertions.assertResponseTimeLessThan (response, 20000l );
+
+        String headers = response.getHeader("Accept=*/*");
+        Assert.assertEquals (  headers,null,"'Headers' field is not null!");
+
+        Assert.assertFalse(responseBody.isEmpty(), "Response body is empty");
+
+        Assertions.lineSeparatorStartEndLines ( 0,"TestValidResponse Check IF The Pet Is Deleted " );
 
     }
 }
