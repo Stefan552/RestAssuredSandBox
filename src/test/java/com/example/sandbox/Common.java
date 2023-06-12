@@ -1,10 +1,19 @@
 package com.example.sandbox;
 
+import com.example.sandbox.util.body.pet.JsonBody;
+import com.example.sandbox.util.body.pet.PostCreatePet;
+import com.example.sandbox.util.swagger.definitions.Item;
+import com.example.sandbox.util.swagger.definitions.PetBody;
+import com.google.gson.JsonObject;
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
 import java.util.Map;
 
+import static com.example.sandbox.util.Tools.generateRandomNumber;
+import static com.example.sandbox.util.constans.TestData.HYDRAIMAGE;
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
 
 public class Common extends Endpoints {
 
@@ -110,12 +119,7 @@ public class Common extends Endpoints {
     }
 
     //----------------------------------PUT----------------------------------
-
-    //----------------------------------DELETE----------------------------------
-
-    public Response deleteUrl(String endpoint,String body){
-
-
+    public Response updatePet(  String body) {
         return given()
                 .relaxedHTTPSValidation()
                 .contentType("application/json; charset=UTF-8")
@@ -123,12 +127,30 @@ public class Common extends Endpoints {
                 .and()
                 .log().everything()
                 .when()
-                .delete (baseUrl+endpoint)
+                .put (baseUrl+newPet)
                 .then()
                 .log()
                 .all()
                 .extract().response();
 
+    }
+
+    //----------------------------------DELETE----------------------------------
+
+    public Response deletePet(String id){
+
+
+        return given()
+                .relaxedHTTPSValidation()
+                .contentType("application/json; charset=UTF-8")
+                .and()
+                .log().everything()
+                .when()
+                .delete (baseUrl+deletePet+id)
+                .then()
+                .log()
+                .all()
+                .extract().response();
     }
 }
 
