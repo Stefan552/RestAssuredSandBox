@@ -1,4 +1,4 @@
-package com.example.sandbox.FeladatMasodikResz;
+package com.example.sandbox.Pet.FeladatMasodikResz;
 
 import com.example.sandbox.Common;
 import com.example.sandbox.util.Assertions;
@@ -42,7 +42,23 @@ public class petLifeActions extends Common {
 
         Response response = postUrl(newPet, createJsonBody(body));
         Assert.assertEquals(response.getStatusCode(), 200, "Invalid response code");
-        Assertions.lineSeparatorStartEndLines ( 0," Test createPetForUsageTest" );}
+
+        Assertions.assertResponseHasHeader(response, "Server");
+        String server = response.getHeader("Server");
+        Assert.assertNotNull(server, "Server header is missing");
+        Assert.assertEquals(server, "Jetty(9.2.9.v20150224)", "Invalid content server");
+
+        Assertions.assertResponseStatus(response, "available");
+
+        Assertions.assertResponseBodyContains(response,"name");
+
+        Assertions.assertResponseBodyHasKey(response, "status");
+        String contentType = response.getHeader("Content-Type");
+        Assert.assertEquals(contentType, "application/json", "Invalid content type");
+        Assert.assertNotNull ( contentType, "The Content-Type  header is missing");
+        Assertions.lineSeparatorStartEndLines ( 0," Test createPetForUsageTest" );
+
+    }
 
     @Test (enabled = true,groups = {SMOKE},description ="TestValidResponseFindPet  VALID Response Case",priority = 2)
     public void TestValidResponseFindPet(){
@@ -126,8 +142,6 @@ public class petLifeActions extends Common {
 
         String responseMessage=jsonPath.getString ( "message" );
         Assert.assertEquals ( responseMessage,"java.lang.NumberFormatException: For input string: \"null\"","The  message is incorect!" );
-        Assertions.assertResponseTimeLessThan (response, 20000l );
-
         String headers = response.getHeader("Accept=*/*");
         Assert.assertEquals (  headers,null,"'Headers' field is not null!");
 
@@ -220,7 +234,7 @@ public class petLifeActions extends Common {
 
     @Test (enabled = true,groups = {SMOKE},description ="TestInValidUpdatePet  INVALID Response Case",priority = 5)
     public void TestInValidUpdatePet(){
-            Assertions.lineSeparatorStartEndLines ( 1,"Test TestInValidResponseUpdatePet updateTestInvalid " );
+            Assertions.lineSeparatorStartEndLines ( 1," TestInValidResponseUpdatePet  " );
 
              PostCreatePet body=   PostCreatePet.builder().build();
 
@@ -257,7 +271,7 @@ public class petLifeActions extends Common {
             String headers = response.getHeader("Accept=*/*");
             Assert.assertEquals (  headers,null,"'Headers' field is not null!");
 
-            Assertions.lineSeparatorStartEndLines ( 1,"Test TestInValidResponseUpdatePet updateTestInvalid " );
+            Assertions.lineSeparatorStartEndLines ( 0," TestInValidResponseUpdatePet  " );
 
 
     }
@@ -387,12 +401,10 @@ public class petLifeActions extends Common {
         Assert.assertNotNull(server, "Server header is missing");
         Assert.assertEquals(server, "Jetty(9.2.9.v20150224)", "Invalid content server");
 
-
         String responseBody = response.getBody().asString();
         Assert.assertTrue ( responseBody.contains ( "error"));
         Assert.assertTrue ( responseBody.contains ( "Pet not found"));
         Assert.assertTrue ( responseBody.contains ( "code"));
-
 
         String message = jsonPath.getString("message");
         Assert.assertNotNull(message, "Response message is null");

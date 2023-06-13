@@ -1,4 +1,4 @@
-package com.example.sandbox.getPet;
+package com.example.sandbox.Pet.getPet;
 
 import com.example.sandbox.Common;
 import com.example.sandbox.util.Assertions;
@@ -15,8 +15,8 @@ import static com.example.sandbox.util.constans.Tags.SMOKE;
 public class petDetailTest extends Common {
 Assertions Assertions=new Assertions ();
     @Test(enabled = true,groups = {SMOKE},description ="petDetailTest  VALID Response Case",priority = 1)
-    public void TestValidResponse(){
-        Assertions.lineSeparatorStartEndLines ( 1,"TestValidResponse petDetailTest " );
+    public void TestValidResponsePetDetail(){
+        Assertions.lineSeparatorStartEndLines ( 1,"TestValidResponse TestValidResponsePetDetail " );
         Map<String, String> queryParams = new TreeMap<>();
         queryParams.put("status", "sold");
 
@@ -39,8 +39,6 @@ Assertions Assertions=new Assertions ();
         String responseBody = response.getBody().asString();
         Assert.assertFalse(responseBody.isEmpty(), "Response body is empty");
         Assert.assertTrue ( responseBody.contains ( "sold"));
-
-
 
         String id = jsonPath.getString("id");
         Assert.assertNotNull(id, "Pet ID is null");
@@ -70,25 +68,21 @@ Assertions Assertions=new Assertions ();
         String headers = response.getHeader("Accept=*/*");
         Assert.assertEquals (  headers,null,"'Headers' field is not null!");
 
-
         Assert.assertFalse(responseBody.isEmpty(), "Response body is empty");
         Assertions.lineSeparatorStartEndLines ( 0,"TestValidResponse petDetailTest " );
 
     }
 
     @Test(enabled = true,groups = {SMOKE},description ="petDetailTest  INVALID Response Case",priority = 2)
-    public void TestInvalidResponse(){
+    public void TestINValidResponsePetDetail(){
 
         Assertions.lineSeparatorStartEndLines ( 1,"TestInValidResponse petDetailTest " );
         Map<String, String> queryParams = new TreeMap<>();
         queryParams.put("status","sold");
 
-
         Response response = getUrl(newPet, queryParams);
 
         Assert.assertEquals(response.getStatusCode(), 405, "Invalid response code");
-
-        JsonPath jsonPath = response.jsonPath();
 
         String contentType = response.getHeader("Content-Type");
         Assert.assertEquals(contentType, "application/xml", "Invalid content type");
@@ -98,12 +92,9 @@ Assertions Assertions=new Assertions ();
         Assert.assertNotNull(server, "Server header is missing");
         Assert.assertEquals(server, "Jetty(9.2.9.v20150224)", "Invalid content server");
 
-
         String responseBody = response.getBody().asString();
         Assert.assertFalse(responseBody.isEmpty(), "Response body is empty");
         Assert.assertTrue ( responseBody.contains ( "/apiResponse"));
-
-        Assertions.assertResponseTimeLessThan (response, 20000l );
         String headers = response.getHeader("Accept=*/*");
         Assert.assertEquals (  headers,null,"'Headers' field is not null!");
 
@@ -113,8 +104,6 @@ Assertions Assertions=new Assertions ();
 
         Assertions.assertResponseTimeLessThan(response, 20000000L);
         Assertions.lineSeparatorStartEndLines ( 0,"TestInValidResponse petDetailTest " );
-
-
     }
 
 

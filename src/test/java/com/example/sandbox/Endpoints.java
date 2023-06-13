@@ -21,8 +21,8 @@ public class Endpoints {
     //-------------------------user-------------------------
 
     public static final String createWithArray = "/user/createWithArray";
-    public static final String createWithList = "/user/createWithList";
-    public static final String user = "/user/{username}";
+    public static final String deleteUser = "/user/";
+    public static final String userByUsername = "/user/";
     public static final String login = "/user/login";
     public static final String logout = "/user/logout";
     public static final String createUserSimple="/user";

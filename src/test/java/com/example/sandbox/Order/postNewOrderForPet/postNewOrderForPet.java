@@ -1,4 +1,4 @@
-package com.example.sandbox.postNewOrderForPet;
+package com.example.sandbox.Order.postNewOrderForPet;
 
 import com.example.sandbox.Common;
 import com.example.sandbox.util.Assertions;
@@ -29,7 +29,7 @@ public class postNewOrderForPet extends Common {
         StoreJSonBody storeJSonBody=new StoreJSonBody ();
         Response response = postUrl ( order,storeJSonBody.createJsonBody2 ( bodyStore ));
         Assert.assertNotNull(response);
-        Assert.assertEquals(200, response.getStatusCode());
+        Assert.assertEquals( response.getStatusCode(),200);
 
         String id = response.jsonPath().get("id").toString();
         Assert.assertNotNull(id, " ID is not Null");
@@ -70,9 +70,6 @@ public class postNewOrderForPet extends Common {
         String contentType = response.getHeader("Content-Type");
         Assert.assertEquals(contentType, "application/json", "Invalid content type");
         Assert.assertNotNull ( contentType, "The Content-Type  header is missing");
-
-        Assertions.assertReturnCode ( response,200 );
-
         Assertions.lineSeparatorStartEndLines ( 0 , "testValidResponsePlacingNewOrder " );
 
     }
@@ -86,7 +83,7 @@ public class postNewOrderForPet extends Common {
         StoreJSonBody storeJSonBody=new StoreJSonBody ();
         Response response = postUrl ( order,storeJSonBody.createJsonBody2 ( bodyStore ));
         Assert.assertNotNull(response);
-        Assert.assertEquals(400, response.getStatusCode());
+        Assert.assertEquals( response.getStatusCode(),400);
 
         String code = response.jsonPath().get("code").toString();
         Assert.assertNotNull(code, "The code field is not Null");
@@ -124,7 +121,7 @@ public class postNewOrderForPet extends Common {
         String contentType = response.getHeader("Content-Type");
         Assert.assertEquals(contentType, "application/json", "Invalid content type");
         Assert.assertNotNull ( contentType, "The Content-Type  header is missing");
-        Assertions.lineSeparatorStartEndLines ( 0 , "testValidResponsePlacingNewOrder " );
+        Assertions.lineSeparatorStartEndLines ( 0 , "testINValidResponsePlacingNewOrder " );
 
     }
 }

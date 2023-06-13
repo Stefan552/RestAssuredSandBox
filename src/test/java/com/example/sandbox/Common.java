@@ -1,20 +1,12 @@
 package com.example.sandbox;
 
-import com.example.sandbox.util.body.pet.JsonBody;
-import com.example.sandbox.util.body.pet.PostCreatePet;
-import com.example.sandbox.util.swagger.definitions.Item;
-import com.example.sandbox.util.swagger.definitions.PetBody;
-import com.google.gson.JsonObject;
-import io.restassured.http.ContentType;
+import com.example.sandbox.util.swagger.definitions.UserBody;
 import io.restassured.response.Response;
 
 import java.io.File;
 import java.util.Map;
 
-import static com.example.sandbox.util.Tools.generateRandomNumber;
-import static com.example.sandbox.util.constans.TestData.HYDRAIMAGE;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
 
 public class Common extends Endpoints {
 
@@ -118,6 +110,23 @@ public class Common extends Endpoints {
                 .extract().response();
 
     }
+    public Response postUrl( String endpoint, UserBody[] userBodies){
+
+
+        return given()
+                .relaxedHTTPSValidation()
+                .contentType("application/json; charset=UTF-8")
+                .body(userBodies)
+                .and()
+                .log().everything()
+                .when()
+                .post(baseUrl+endpoint)
+                .then()
+                .log()
+                .all()
+                .extract().response();
+
+    }
 
     //----------------------------------PUT----------------------------------
     public Response updatePet(  String body) {
@@ -168,6 +177,19 @@ public class Common extends Endpoints {
                 .all()
                 .extract().response();
     }
+    public Response getUserByUsername(  String username ) {
+
+        return given()
+                .relaxedHTTPSValidation()
+                .and()
+                .log().everything()
+                .when()
+                .get(baseUrl+userByUsername+username)
+                .then()
+                .log()
+                .all()
+                .extract().response();
+    }
 
     //----------------------------------ORDER ById DELETE----------------------------------
 
@@ -190,7 +212,7 @@ public class Common extends Endpoints {
     public Response updatePetImage(  Integer id,File file) {
         return given()
                 .relaxedHTTPSValidation()
-                .formParam("id", id)
+                .formParam("id",id)
                 .multiPart ( file)
                 .and()
                 .log().everything()
@@ -208,7 +230,67 @@ public class Common extends Endpoints {
 
     }
 
+    public Response updateUserByName(String userName, String body) {
+        return given()
+                .relaxedHTTPSValidation()
+                .contentType("application/json; charset=UTF-8")
+                .body(body)
+                .and()
+                .log().everything()
+                .when()
+                .put (baseUrl+userByUsername+userName)
+                .then()
+                .log()
+                .all()
+                .extract().response();
 
+    }
+
+    public Response loginUser(  String username,String password ,String endpoint) {
+
+        return given()
+                .relaxedHTTPSValidation()
+                .queryParam ( "userName",username )
+                .queryParam ( "password",password )
+                .and()
+                .log().everything()
+                .when()
+                .get(baseUrl+endpoint)
+                .then()
+                .log()
+                .all()
+                .extract().response();
+    }
+
+    public Response logoutUser( String endpoint ) {
+
+        return given()
+                .relaxedHTTPSValidation()
+                .and()
+                .log().everything()
+                .when()
+                .get(baseUrl+endpoint)
+                .then()
+                .log()
+                .all()
+                .extract().response();
+    }
+
+    public Response deleteUserByUsername(String username ){
+
+
+        return given()
+                .relaxedHTTPSValidation()
+                .contentType("application/json; charset=UTF-8")
+                .and()
+                .log().everything()
+                .when()
+                .delete (baseUrl+deleteUser+username)
+                .then()
+                .log()
+                .all()
+                .extract().response();
+    }
 
 }
 

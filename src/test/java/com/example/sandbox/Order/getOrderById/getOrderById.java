@@ -1,27 +1,58 @@
-package com.example.sandbox.getOrderById;
+package com.example.sandbox.Order.getOrderById;
 
 import com.example.sandbox.Common;
 import com.example.sandbox.util.Assertions;
 import com.example.sandbox.util.body.store.PostCreateStore;
 import com.example.sandbox.util.body.store.StoreJSonBody;
+import com.example.sandbox.util.swagger.definitions.StoreBody;
 import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import static com.example.sandbox.util.constans.Tags.ORDER;
-import static com.example.sandbox.util.constans.Tags.SMOKE;
 
 public class getOrderById extends Common {
 Assertions Assertions=new Assertions ();
 
+    @Test ( enabled = true, groups = {ORDER}, description = "ValidResponse Placing NewOrder at the  Store", priority = 1 )
+    public void testNewOrderToSearch ( ) {
+        Assertions.lineSeparatorStartEndLines ( 1 , "testNewOrderToSearch " );
 
-    @Test (enabled = true,groups = {ORDER},description ="petDetailTest  INVALID Response Case",priority = 1)
+        PostCreateStore bodyStore=PostCreateStore.builder ()
+                .StoreBody ( StoreBody.builder ()
+                        .id ( 14521 )
+                        .petId ( 1542 )
+                        .quantity ( 1 )
+                        .shipDate ( "2023-06-12T16:59:30.181Z" )
+                        .status ( "placed" )
+                        .complete ( true )
+                        .build ()).build ();
+        StoreJSonBody storeJSonBody=new StoreJSonBody ();
+        Response response = postUrl ( order,storeJSonBody.createJsonBody2 ( bodyStore ));
+        Assert.assertNotNull(response);
+        Assert.assertEquals( response.getStatusCode(),200);
+        String contentType = response.getHeader("Content-Type");
+        Assert.assertEquals(contentType, "application/json", "Invalid content type");
+        Assert.assertNotNull ( contentType, "The Content-Type  header is missing");
+
+        String server = response.getHeader("Server");
+        Assert.assertNotNull(server, "Server header is missing");
+        Assert.assertEquals(server, "Jetty(9.2.9.v20150224)", "Invalid content server");
+        String responseBody = response.getBody().asString();
+        Assertions.assertResponseTimeLessThan (response, 20000l );
+        String headers = response.getHeader("Accept=*/*");
+        Assert.assertEquals (  headers,null,"'Headers' field is not null!");
+        Assert.assertFalse(responseBody.isEmpty(), "Response body is empty");
+        Assertions.lineSeparatorStartEndLines ( 0 , "testNewOrderToSearch " );
+
+    }
+    @Test (enabled = true,groups = {ORDER},description ="TestGetOrderByIdValidResponse Valid Response Case",priority = 2)
     public void TestGetOrderByIdValidResponse(){
         Assertions.lineSeparatorStartEndLines ( 1 , "TestGetOrderByIdValidResponse " );
         Response response=getOrderById ( "14521" );
 
         Assert.assertNotNull(response);
-        Assert.assertEquals(200, response.getStatusCode());
+        Assert.assertEquals( response.getStatusCode(),200);
 
         String id = response.jsonPath().get("id").toString();
         Assert.assertNotNull(id, " ID is not Null");
@@ -66,7 +97,7 @@ Assertions Assertions=new Assertions ();
 
     }
 
-    @Test ( enabled = true, groups = {ORDER}, description = "INValidResponse Placing NewOrder at the  Store", priority = 2 )
+    @Test ( enabled = true, groups = {ORDER}, description = "TestGetOrderByIdInvalidResponse Placing NewOrder at the  Store", priority = 3)
     public void TestGetOrderByIdInvalidResponse ( ) {
         Assertions.lineSeparatorStartEndLines ( 1 , "TestGetOrderByIdInvalidResponse " );
 
@@ -75,7 +106,7 @@ Assertions Assertions=new Assertions ();
         StoreJSonBody storeJSonBody=new StoreJSonBody ();
         Response response = postUrl ( order,storeJSonBody.createJsonBody2 ( bodyStore ));
         Assert.assertNotNull(response);
-        Assert.assertEquals(400, response.getStatusCode());
+        Assert.assertEquals( response.getStatusCode(),400);
 
         String code = response.jsonPath().get("code").toString();
         Assert.assertNotNull(code, "The code field is not Null");

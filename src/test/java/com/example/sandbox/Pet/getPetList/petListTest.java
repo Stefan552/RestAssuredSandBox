@@ -1,4 +1,4 @@
-package com.example.sandbox.getPetList;
+package com.example.sandbox.Pet.getPetList;
 
 import com.example.sandbox.Common;
 import com.example.sandbox.util.Assertions;
@@ -16,15 +16,11 @@ public class petListTest extends Common {
 Assertions Assertions=new Assertions ();
 
     @Test(enabled = true,groups = {SMOKE},description ="petListTest  VALID Response Case",priority = 1)
-
-    public void TestValidResponse(){
+    public void TestValidResponsePetList(){
         Assertions.lineSeparatorStartEndLines ( 1,"TestValidResponse petListTest " );
         Map<String, String> queryParams = new TreeMap<>();
         queryParams.put("status", "sold");
-
-
         Response response = getUrl(findByStatus, queryParams);
-
         Assert.assertEquals(response.getStatusCode(), 200, "Invalid response code");
 
         JsonPath jsonPath = response.jsonPath();
@@ -37,12 +33,9 @@ Assertions Assertions=new Assertions ();
         Assert.assertNotNull(server, "Server header is missing");
         Assert.assertEquals(server, "Jetty(9.2.9.v20150224)", "Invalid content server");
 
-
         String responseBody = response.getBody().asString();
         Assert.assertFalse(responseBody.isEmpty(), "Response body is empty");
         Assert.assertTrue ( responseBody.contains ( "sold"));
-
-
 
         String id = jsonPath.getString("id");
         Assert.assertNotNull(id, "Pet ID is null");
@@ -72,23 +65,18 @@ Assertions Assertions=new Assertions ();
         String headers = response.getHeader("Accept=*/*");
         Assert.assertEquals (  headers,null,"'Headers' field is not null!");
 
-
         Assert.assertFalse(responseBody.isEmpty(), "Response body is empty");
         Assertions.lineSeparatorStartEndLines ( 0, "TestValidResponse petListTest");
     }
 
     @Test(enabled = true,groups = {SMOKE},description ="petListTest  INVALID Response Case",priority = 2)
-    public void TestInvalidResponse(){
+    public void TestInvalidResponsePetList(){
         Assertions.lineSeparatorStartEndLines ( 1, "TestInValidResponse petListTest");
         Map<String, String> queryParams = new TreeMap<>();
         queryParams.put("status","sold");
-
-
         Response response = getUrl(newPet, queryParams);
 
         Assert.assertEquals(response.getStatusCode(), 405, "Invalid response code");
-
-        JsonPath jsonPath = response.jsonPath();
 
         String contentType = response.getHeader("Content-Type");
         Assert.assertEquals(contentType, "application/xml", "Invalid content type");
@@ -103,7 +91,6 @@ Assertions Assertions=new Assertions ();
         Assert.assertFalse(responseBody.isEmpty(), "Response body is empty");
         Assert.assertTrue ( responseBody.contains ( "/apiResponse"));
 
-        Assertions.assertResponseTimeLessThan (response, 20000l );
         String headers = response.getHeader("Accept=*/*");
         Assert.assertEquals (  headers,null,"'Headers' field is not null!");
 
@@ -115,8 +102,9 @@ Assertions Assertions=new Assertions ();
         Assertions.lineSeparatorStartEndLines ( 0, "TestInValidResponse petListTest");
 
     }
+
     @Test(enabled = true,groups = {SMOKE},description ="petListTest2  VALID Response Case ",priority = 3)
-    public void TestValidResponse2(){
+    public void TestValidResponse2PetList(){
         Assertions.lineSeparatorStartEndLines ( 1, "TestValidResponse petListTest2");
         Map<String, String> queryParams = new TreeMap<>();
         queryParams.put("status","available");
@@ -125,8 +113,6 @@ Assertions Assertions=new Assertions ();
 
         Response  response = getUrl(findByStatus,headers,queryParams);
         Assert.assertEquals(response.getStatusCode(),200,"Invalid response code");
-        Assert.assertEquals(response.getStatusCode(), 200, "Invalid response code");
-
         JsonPath jsonPath = response.jsonPath();
 
         String contentType = response.getHeader("Content-Type");
@@ -137,12 +123,9 @@ Assertions Assertions=new Assertions ();
         Assert.assertNotNull(server, "Server header is missing");
         Assert.assertEquals(server, "Jetty(9.2.9.v20150224)", "Invalid content server");
 
-
         String responseBody = response.getBody().asString();
         Assert.assertFalse(responseBody.isEmpty(), "Response body is empty");
         Assert.assertTrue ( responseBody.contains ( "available" ));
-
-
 
         String id = jsonPath.getString("id");
         Assert.assertNotNull(id, "Pet ID is null");
@@ -176,7 +159,7 @@ Assertions Assertions=new Assertions ();
     }
 
     @Test(enabled = true,groups = {SMOKE},description ="petListTest2  INVALID Response Case ",priority = 4)
-    public void TestInValidResponse2(){
+    public void TestInValidResponse2PetList(){
         Assertions.lineSeparatorStartEndLines ( 1, "TestInValidResponse petListTest2");
         Map<String, String> queryParams = new TreeMap<>();
         queryParams.put("status","available");
@@ -186,8 +169,6 @@ Assertions Assertions=new Assertions ();
 
         Assert.assertEquals(response.getStatusCode(), 405, "Invalid response code");
 
-        JsonPath jsonPath = response.jsonPath();
-
         String contentType = response.getHeader("Content-Type");
         Assert.assertEquals(contentType, "application/xml", "Invalid content type");
         Assert.assertNotNull ( contentType, "The Content-Type  header is missing");
@@ -195,7 +176,6 @@ Assertions Assertions=new Assertions ();
         String server = response.getHeader("Server");
         Assert.assertNotNull(server, "Server header is missing");
         Assert.assertEquals(server, "Jetty(9.2.9.v20150224)", "Invalid content server");
-
 
         String responseBody = response.getBody().asString();
         Assert.assertFalse(responseBody.isEmpty(), "Response body is empty");

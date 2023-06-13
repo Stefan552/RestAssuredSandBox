@@ -1,4 +1,4 @@
-package com.example.sandbox.businessProcesses;
+package com.example.sandbox.Pet.businessProcesses;
 
 import com.example.sandbox.Common;
 import com.example.sandbox.util.Assertions;
@@ -95,8 +95,6 @@ public class PetLifeCycle extends Common  {
         Assert.assertNotNull(server, "Server header is missing");
         Assert.assertEquals(server, "Jetty(9.2.9.v20150224)", "Invalid content server");
 
-
-
         Assertions.assertResponseStatus(response, "available");
 
         Assertions.assertResponseBodyContains(response, "Princess");
@@ -115,13 +113,10 @@ public class PetLifeCycle extends Common  {
         Response response = postUrl(newPet, createJsonBody(body));
 
         Assert.assertEquals(response.getStatusCode(), 405, "Invalid response code");
-
         Assertions.assertResponseHasHeader(response, "Content-Type");
         Assertions.assertResponseHasHeader(response, "Date");
-
         String contentType = response.getHeader("Content-Type");
         Assert.assertFalse (contentType.contains("charset"), "Charset not found");
-
         Assert.assertNotNull(response.getBody(), "Response body is null");
 
         String responseBody = response.getBody().asString();
@@ -141,10 +136,8 @@ public class PetLifeCycle extends Common  {
         String server = response.getHeader("Server");
         Assert.assertNotNull(server, "Server header is missing");
         Assert.assertEquals(server, "Jetty(9.2.9.v20150224)", "Invalid content server");
-
-
         Assertions.assertResponseTimeLessThan(response, 20000000L);
-        response.getBody().print();
+
         Assertions.lineSeparatorStartEndLines ( 0,"TestInValidResponse PetLifeCycle " );
 
     }

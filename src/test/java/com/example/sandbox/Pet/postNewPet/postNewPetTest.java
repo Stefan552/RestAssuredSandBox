@@ -1,4 +1,4 @@
-package com.example.sandbox.postNewPet;
+package com.example.sandbox.Pet.postNewPet;
 
 import com.example.sandbox.Common;
 import com.example.sandbox.util.Assertions;
@@ -18,7 +18,7 @@ public class postNewPetTest extends Common {
 Assertions Assertions=new Assertions ();
 
     @Test(enabled = true, groups = {SMOKE}, description = "postNewPetTest Test VALID Response Case",priority = 1)
-    public void testValidResponse() {
+    public void testValidResponseNewPet() {
         Assertions.lineSeparatorStartEndLines ( 1 , "TestValidResponse postNewPetTest " );
 
         PostCreatePet body = PostCreatePet.builder()
@@ -37,9 +37,6 @@ Assertions Assertions=new Assertions ();
                         .status("available")
                         .build()
                 ).build();
-
-
-
 
         Response response = postUrl(newPet, createJsonBody(body));
         Assert.assertEquals(response.getStatusCode(), 200, "Invalid response code");
@@ -106,12 +103,17 @@ Assertions Assertions=new Assertions ();
         Assertions.assertResponseBodyContains(response, "Princess");
 
         Assertions.assertResponseBodyHasKey(response, "id");
+
+        String contentType = response.getHeader("Content-Type");
+        Assert.assertEquals(contentType, "application/json", "Invalid content type");
+        Assert.assertNotNull ( contentType, "The Content-Type  header is missing");
+
         Assertions.lineSeparatorStartEndLines ( 0,"TestValidResponse postNewPetTest " );
 
     }
 
     @Test(enabled = true, groups = {SMOKE}, description = "postNewPetTest Test INVALID Response Case",priority = 2)
-    public void testInvalidResponse() {
+    public void testInvalidResponseNewPet() {
         Assertions.lineSeparatorStartEndLines ( 1 , "TestInValidResponse postNewPetTest " );
         PostCreatePet body = PostCreatePet.builder ()
                 .build ();
@@ -145,8 +147,6 @@ Assertions Assertions=new Assertions ();
         String server = response.getHeader ( "Server" );
         Assert.assertNotNull ( server , "Server header is missing" );
         Assert.assertEquals ( server , "Jetty(9.2.9.v20150224)" , "Invalid content server" );
-
-
         Assertions.assertResponseTimeLessThan ( response , 20000000L );
 
         Assertions.lineSeparatorStartEndLines ( 0 , "TestInValidResponse postNewPetTest " );
