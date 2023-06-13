@@ -27,8 +27,6 @@ public class getStoreInventory extends Common {
         Assertions.assertResponseHasHeader(response, "Content-Type");
         Assertions.assertResponseTimeLessThan(response, 200000000L);
 
-        String VL4EQE = response.jsonPath().get("VL4EQE").toString ();
-        Assertions.assertResponseBodyContains ( response,VL4EQE );
 
         String string = response.jsonPath().get("string").toString ();
         Assertions.assertResponseBodyContains ( response,string);

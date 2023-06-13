@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
+import java.io.File;
 import java.util.Map;
 
 import static com.example.sandbox.util.Tools.generateRandomNumber;
@@ -152,5 +153,62 @@ public class Common extends Endpoints {
                 .all()
                 .extract().response();
     }
+    //----------------------------------ORDER ById GET----------------------------------
+
+    public Response getOrderById (  String id ) {
+
+        return given()
+                .relaxedHTTPSValidation()
+                .and()
+                .log().everything()
+                .when()
+                .get(baseUrl+orderById+id)
+                .then()
+                .log()
+                .all()
+                .extract().response();
+    }
+
+    //----------------------------------ORDER ById DELETE----------------------------------
+
+    public Response deleteOrderById(String id){
+
+
+        return given()
+                .relaxedHTTPSValidation()
+                .contentType("application/json; charset=UTF-8")
+                .and()
+                .log().everything()
+                .when()
+                .delete (baseUrl+deleteOrder+id)
+                .then()
+                .log()
+                .all()
+                .extract().response();
+    }
+
+    public Response updatePetImage(  Integer id,File file) {
+        return given()
+                .relaxedHTTPSValidation()
+                .formParam("id", id)
+                .multiPart ( file)
+                .and()
+                .log().everything()
+                .when()
+                .post(baseUrl+petById+id+uploadImage)
+                .then()
+                .log()
+                .all()
+                .extract().response();
+
+
+
+
+
+
+    }
+
+
+
 }
 
