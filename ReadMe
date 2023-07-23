@@ -1,0 +1,73 @@
+# REST API Test Project - PetStore API
+
+This is a test project for testing the PetStore API using various requests related to pets, orders, and users.
+
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Tests](#tests)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Introduction
+
+The PetStore API Test Project aims to ensure the correctness and reliability of the PetStore API by executing a comprehensive set of tests related to pets, orders, and users. The tests are designed to verify the functionality, data integrity, and security of the API endpoints.
+
+## Features
+
+- Testing the PetStore API endpoints for pets, orders, and users.
+- Verification of the API's response for correctness and expected behavior.
+- Validation of the data integrity and consistency when performing CRUD operations.
+- Security testing to ensure sensitive data is handled securely.
+- Comprehensive test coverage with different test scenarios.
+
+## Technologies Used
+
+The test project is built using the following technologies:
+
+- Java
+- REST Assured - A Java library for testing RESTful APIs
+- JUnit - A unit testing framework for Java
+- Maven - A build and dependency management tool
+
+## Installation
+
+1. Clone the repository to your local machine using the following command:
+
+```
+git clone <repository-url>
+```
+
+2. Navigate to the project directory.
+
+## Usage
+
+1. Before running the tests, ensure you have Java and Maven installed on your system.
+2. Open a terminal or command prompt and navigate to the project directory.
+3. Run the following command to execute the tests:
+
+```
+mvn test
+```
+
+## Tests
+
+The test suite includes a set of test cases that cover various scenarios for pet, order, and user-related API requests. The tests are organized into different classes based on the API endpoints.
+
+- `PetTests.java`: Contains tests related to pet requests (e.g., add a new pet, update pet details, get pet information, etc.).
+- `OrderTests.java`: Includes tests for order requests (e.g., place a new order, retrieve order details, etc.).
+- `UserTests.java`: Contains tests related to user requests (e.g., create a new user, update user information, etc.).
+
+Each test case is designed to be independent and self-contained, ensuring a clean and consistent testing environment.
+
+## Contributing
+
+Contributions to this test project are welcome! If you find any issues or want to add new features, feel free to open a pull request. Please make sure to follow the coding standards and write appropriate unit tests.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE). You are free to modify, distribute, and use the code for your purposes. See the `LICENSE` file for more details.
